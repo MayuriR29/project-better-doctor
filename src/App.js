@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
 import DoctorsList from "./DoctorsList";
-import SearchDoctor from "./SearchDoctor";
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      doctors: []
+      doctors: [],
+      displayedDoctors:[]
     };
   }
   async componentDidMount() {
@@ -16,17 +16,46 @@ class App extends Component {
     const doctors = await response.json();
     this.setState({
       doctors: doctors.data,
-      docInfo:null
+      docInfo: null, //for display of doctor info
+      search_param: "",
+      displayedDoctors: doctors.data
     });
-    console.log("in componentDidMount", doctors.data);
   }
+  handleSearch = () => {
+    console.log("in handleSearch", this.state.search_param);
+    const nameSearch = this.state.search_param;
+    //  filter list of doctors by search_param
+    const filterByName = nameSearch => {
+      return this.state.doctors.filter(
+        obj => obj.profile.first_name === nameSearch
+      );
+    };
+    const result = filterByName(nameSearch);
+    console.log(result);
+    // setState on displayedDoctors
+    this.setState({
+      displayedDoctors:result
+    })
+  };
+  handleInputChange = event => {
+    const valueOfInput = event.target.value;
+    this.setState({
+      search_param: valueOfInput
+    });
+  };
   render() {
-    console.log("this.state.doctors in render", this.state.doctors);
     return (
       <div>
         <h1>Welcome To Better Doctor</h1>
-        <DoctorsList list={this.state.doctors} />
-        <SearchDoctor search={this.state.doctors} />
+        
+        <input
+          type="text"
+          placeholder="Doctor name"
+          value={this.state.search_param}
+          onChange={this.handleInputChange}
+        />
+        <button onClick={this.handleSearch}>Search Doctor</button>
+        <DoctorsList list={this.state.displayedDoctors} />
       </div>
     );
   }

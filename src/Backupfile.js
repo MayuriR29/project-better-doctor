@@ -23,3 +23,11 @@ const DoctorsList = props => {
   );
 };
 export default DoctorsList;
+//for searh  by doctor name
+<ul>
+        {props.list.filter((eachDoc, index) =>{
+        return    eachDoc.profile.slug ===props.param
+        } 
+          
+      )}
+        </ul>
