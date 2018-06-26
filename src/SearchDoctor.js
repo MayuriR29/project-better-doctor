@@ -1,8 +1,15 @@
 import React from 'react';
 const SearchDoctor=(props)=>{
+    console.log('in SearchDoctor ',props);
 return(
     <div>
-    searching
+     <input
+          type="text"
+          placeholder="Doctor name"
+          value={props.inputValue}
+        onChange={props.inputChange}
+        />
+      <button onClick={props.clickSearch}>Search Doctor</button>
     </div>
     
 )

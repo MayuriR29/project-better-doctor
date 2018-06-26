@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 import DoctorsList from "./DoctorsList";
 import Title from "./Title";
+import SearchDoctor from "./SearchDoctor";
 const NavBar = props => (
   <div>
-    <a onClick={() => props.loadComponent("listdoctors")}>List Doctors</a>
-    <a onClick={() => props.loadComponent("component2")}>Search Doctor</a>
+    <a onClick={() => props.loadComponent("listDoctors")}>List Doctors</a>
+    <a onClick={() => props.loadComponent("searchDoctors")}>Search Doctor</a>
   </div>
 );
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
     const doctors = await response.json();
     this.setState({
       doctors: doctors.data,
-      displayedDoctors: doctors.data
+      displayedDoctors: []
     });
   }
   handleSearch = () => {
@@ -61,15 +62,28 @@ class App extends Component {
       <div>
         <Title />
         <NavBar loadComponent={this.loadComponent} />
-        <input
+
+        {/* <input
           type="text"
           placeholder="Doctor name"
           value={this.state.search_param}
           onChange={this.handleInputChange}
         />
-        <button onClick={this.handleSearch}>Search Doctor</button>
-        {this.state.componentToDisplay === "listdoctors" && <DoctorsList list={this.state.displayedDoctors} />}
-        
+        <button onClick={this.handleSearch}>Search Doctor</button> */}
+        {this.state.componentToDisplay === "listDoctors" && (
+          <DoctorsList list={this.state.doctors} />
+        )}
+        {this.state.componentToDisplay === "searchDoctors" && (
+          <div>
+            <SearchDoctor
+            inputValue={this.state.search_param}
+            inputChange={this.handleInputChange}
+            clickSearch={this.handleSearch}
+          />
+          <DoctorsList list={this.state.displayedDoctors}/>
+          </div>
+          
+        )}
       </div>
     );
   }
