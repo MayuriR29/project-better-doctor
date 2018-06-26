@@ -1,12 +1,22 @@
 import React, { Component } from "react";
 import "./App.css";
 import DoctorsList from "./DoctorsList";
+import Title from "./Title";
+const NavBar = props => (
+  <div>
+    <a onClick={() => props.loadComponent("listdoctors")}>List Doctors</a>
+    <a onClick={() => props.loadComponent("component2")}>Search Doctor</a>
+  </div>
+);
 class App extends Component {
   constructor() {
     super();
     this.state = {
       doctors: [],
-      displayedDoctors:[]
+      docInfo: null,
+      search_param: "",
+      displayedDoctors: [],
+      componentToDisplay: null
     };
   }
   async componentDidMount() {
@@ -16,8 +26,6 @@ class App extends Component {
     const doctors = await response.json();
     this.setState({
       doctors: doctors.data,
-      docInfo: null, //for display of doctor info
-      search_param: "",
       displayedDoctors: doctors.data
     });
   }
@@ -34,8 +42,8 @@ class App extends Component {
     console.log(result);
     // setState on displayedDoctors
     this.setState({
-      displayedDoctors:result
-    })
+      displayedDoctors: result
+    });
   };
   handleInputChange = event => {
     const valueOfInput = event.target.value;
@@ -43,11 +51,16 @@ class App extends Component {
       search_param: valueOfInput
     });
   };
+  loadComponent = componentName => {
+    this.setState({
+      componentToDisplay: componentName
+    });
+  };
   render() {
     return (
       <div>
-        <h1>Welcome To Better Doctor</h1>
-        
+        <Title />
+        <NavBar loadComponent={this.loadComponent} />
         <input
           type="text"
           placeholder="Doctor name"
@@ -55,7 +68,8 @@ class App extends Component {
           onChange={this.handleInputChange}
         />
         <button onClick={this.handleSearch}>Search Doctor</button>
-        <DoctorsList list={this.state.displayedDoctors} />
+        {this.state.componentToDisplay === "listdoctors" && <DoctorsList list={this.state.displayedDoctors} />}
+        
       </div>
     );
   }

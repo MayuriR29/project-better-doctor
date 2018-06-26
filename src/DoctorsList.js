@@ -3,13 +3,11 @@ const DoctorsList = props => {
   console.log("in DoctorsList", props.list);
   return (
     <div>
-        <ul>
+      <ul>
         {props.list.map((eachDoc, index) => {
-        return <li key={index}>{eachDoc.profile.slug}</li> 
-      })}
-        </ul>
-       
-        
+          return <li key={index}>{eachDoc.profile.slug} </li>;
+        })}
+      </ul>
     </div>
   );
 };
