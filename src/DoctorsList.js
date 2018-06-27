@@ -6,12 +6,11 @@ const DoctorsList = props => {
     <div className='DoctorList'>
       {props.list.map((eachDoc, index) => {
         return (         
-          <p key={index}>
-            {eachDoc.profile.slug}
-            <br />
+          <div key={index}>
+            <h2>{eachDoc.profile.first_name}{" "}{eachDoc.profile.last_name}</h2>
             {eachDoc.profile.bio}    
             <img alt="" src={eachDoc.profile.image_url}/>        
-          </p>         
+          </div>         
         );
       })}
     </div>

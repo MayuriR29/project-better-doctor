@@ -33,9 +33,11 @@ body {
   background-color: #fff;
 }
 .DoctorList,p{
-  background-color:  powderblue;
+  background-color:  #fff;
   width: 400px;
 }
-.DoctorList,img{
-  float:right;
+
+appClass.input{
+  float:left;
+  position:fixed;
 }

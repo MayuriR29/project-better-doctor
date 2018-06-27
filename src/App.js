@@ -13,17 +13,18 @@ class App extends Component {
     this.state = {
       doctors: [],
       docInfo: null,
-      searchParm1: "" /*input field value for doctor search */,
-      searchParm2: "" /*input field value for speciality search */,
-      displayedDoctors: [] /*For selected doctor */,
-      componentToDisplay: null,
+      searchParm1: "", /*input field value for doctor search */
+      searchParm2: "" ,/*input field value for speciality search */
+      searchParm3:"",
+      displayedDoctors: [], /*For selected doctor */
+      componentToDisplay: "searchDoctors",
       specializations: [],
       displaySpecializations: [] /*For selected specializations */
     };
   }
   render() {
     return (
-      <div>
+      <div className="appClass">
         <Title />
         <NavBar loadComponent={this.loadComponent} />
         {this.state.componentToDisplay === "searchDoctors" && (
@@ -44,7 +45,11 @@ class App extends Component {
               clickSearch={this.handleSpecialitySearch}
             />
             <ListSpecializations listSpec={this.state.displaySpecializations} 
-            listDoc={this.state.doctors}/>
+            listDoc={this.state.doctors}
+            inputValue={this.state.searchParm3}
+            inputChange={this.handleSpecialityDocChange}
+            clickSearch={this.handleSpecificDocSearch}
+            />
           </div>
         )}
       </div>
@@ -66,6 +71,12 @@ class App extends Component {
       displaySpecializations: []
     });
   }
+  handleInputChange = event => {/*function onchange of value for doctor search */
+    const valueOfInput = event.target.value;
+    this.setState({
+      searchParm1: valueOfInput
+    });
+  };
   handleDoctorSearch = () => {
     const nameSearch = this.state.searchParm1.toLowerCase();
     console.log("handleDoctorSearch", this.state.searchParm1);
@@ -77,17 +88,15 @@ class App extends Component {
       );
     };
     const result = filterByName(nameSearch);
-    console.log("result display doctors", result);
-    // setState on displayedDoctors
-    this.setState({
+    console.log("result display doctors", result);  
+    this.setState({ // setState on displayedDoctors
       displayedDoctors: result
     });
   };
-  handleInputChange = event => {
-    /*function onchange of value for doctor search */
-    const valueOfInput = event.target.value;
+  handleViewInfo = () => {
+    console.log("in handleViewInfo", this.state.displayedDoctors);
     this.setState({
-      searchParm1: valueOfInput
+      docInfo: this.state.displayedDoctors.profile.bio
     });
   };
   loadComponent = componentName => {
@@ -105,9 +114,6 @@ class App extends Component {
   };
   handleSpecialitySearch = () => {
     const valueSpeciality = this.state.searchParm2.toLowerCase();
-    this.setState({
-      searchParm2: valueSpeciality
-    });
     const searchResult = specialitySearch => {
       /*filter list of speciality by searchParm2*/
       return this.state.specializations.filter(SpecialityObj =>
@@ -119,12 +125,30 @@ class App extends Component {
       displaySpecializations: result
     });
   };
-  handleViewInfo = () => {
-    console.log("in handleViewInfo", this.state.displayedDoctors);
-    this.setState({
-      docInfo: this.state.displayedDoctors.profile.bio
-    });
+  handleSpecialityDocChange=event=>{
+  const valueofSpeciality=event.target.value;
+  this.setState({
+    searchParm3:valueofSpeciality
+  })
+  }
+  handleSpecificDocSearch=()=>{
+  const desiredSpeciality=this.state.searchParm3.toLowerCase();
+  console.log('-->',desiredSpeciality)
+  console.log('in handleSpecificDocSearch',this.state.doctors);
+  const searchDesiredDoc = desiredSpeciality => {
+    return this.state.doctors.filter(
+      docArr => (docArr.specialties[0].name.toLowerCase() === desiredSpeciality)
+    );
   };
+  const desiredDoc = searchDesiredDoc(desiredSpeciality);
+  console.log('in handleSpecificDocSearch',desiredDoc)
+  this.setState({
+    displayedDoctors: desiredDoc
+  });
+
+  }
+  
+ 
 }
 
 export default App;
