@@ -1,6 +1,5 @@
 import React from "react";
 const SearchDoctor = props => {
-  console.log("in SearchDoctor ", props);
   return (
     <div>
       <input
