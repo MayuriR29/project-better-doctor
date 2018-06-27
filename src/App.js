@@ -43,7 +43,8 @@ class App extends Component {
               inputChange={this.handleSpecialityChange}
               clickSearch={this.handleSpecialitySearch}
             />
-            <ListSpecializations listSpec={this.state.displaySpecializations} />
+            <ListSpecializations listSpec={this.state.displaySpecializations} 
+            listDoc={this.state.doctors}/>
           </div>
         )}
       </div>
@@ -66,12 +67,13 @@ class App extends Component {
     });
   }
   handleDoctorSearch = () => {
-    const nameSearch = this.state.searchParm1;
+    const nameSearch = this.state.searchParm1.toLowerCase();
     console.log("handleDoctorSearch", this.state.searchParm1);
     /*filter list of doctors by searchParm1*/
     const filterByName = nameSearch => {
       return this.state.doctors.filter(
-        obj => obj.profile.first_name === nameSearch
+        obj => (obj.profile.first_name.toLowerCase() === nameSearch ||
+        obj.profile.last_name.toLowerCase() === nameSearch)
       );
     };
     const result = filterByName(nameSearch);
@@ -102,14 +104,14 @@ class App extends Component {
     });
   };
   handleSpecialitySearch = () => {
-    const valueSpeciality = this.state.searchParm2;
+    const valueSpeciality = this.state.searchParm2.toLowerCase();
     this.setState({
       searchParm2: valueSpeciality
     });
     const searchResult = specialitySearch => {
       /*filter list of speciality by searchParm2*/
       return this.state.specializations.filter(SpecialityObj =>
-        SpecialityObj.name.includes(valueSpeciality)
+        SpecialityObj.name.toLowerCase().includes(valueSpeciality)
       );
     };
     const result = searchResult(valueSpeciality);

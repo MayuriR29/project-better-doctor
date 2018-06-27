@@ -1,17 +1,18 @@
 import React from "react";
+
 const DoctorsList = props => {
   console.log("in DoctorsList", props.list);
   return (
-    <div>
+    <div className='DoctorList'>
       {props.list.map((eachDoc, index) => {
-        return (
+        return (         
           <p key={index}>
             {eachDoc.profile.slug}
             <br />
-            {eachDoc.profile.bio}
-          </p>
+            {eachDoc.profile.bio}    
+            <img alt="" src={eachDoc.profile.image_url}/>        
+          </p>         
         );
-        // <li key={index}>{eachDoc.profile.slug}</li>
       })}
     </div>
   );

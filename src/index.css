@@ -32,3 +32,10 @@ body {
   color: #c00;
   background-color: #fff;
 }
+.DoctorList,p{
+  background-color:  powderblue;
+  width: 400px;
+}
+.DoctorList,img{
+  float:right;
+}
