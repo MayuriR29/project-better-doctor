@@ -13,17 +13,45 @@ class App extends Component {
     this.state = {
       doctors: [],
       docInfo: null,
-      searchParm1: "" /*input field value for any search */,
-      searchParm2: "",
+      searchParm1: "" /*input field value for doctor search */,
+      searchParm2: "" /*input field value for speciality search */,
       displayedDoctors: [] /*For selected doctor */,
       componentToDisplay: null,
       specializations: [],
       displaySpecializations: [] /*For selected specializations */
     };
   }
+  render() {
+    return (
+      <div>
+        <Title />
+        <NavBar loadComponent={this.loadComponent} />
+        {this.state.componentToDisplay === "searchDoctors" && (
+          <div>
+            <SearchDoctor
+              inputValue={this.state.searchParm1}
+              inputChange={this.handleInputChange}
+              clickSearch={this.handleDoctorSearch}
+            />
+            <DoctorsList list={this.state.displayedDoctors} />
+          </div>
+        )}
+        {this.state.componentToDisplay === "searchSpecific" && (
+          <div>
+            <SearchSpeciality
+              inputValue={this.state.searchParm2}
+              inputChange={this.handleSpecialityChange}
+              clickSearch={this.handleSpecialitySearch}
+            />
+            <ListSpecializations listSpec={this.state.displaySpecializations} />
+          </div>
+        )}
+      </div>
+    );
+  }
   async componentDidMount() {
     const response = await fetch(
-      "https://api.betterdoctor.com/2016-03-01/doctors?location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&skip=0&limit=10&user_key=af3d0bd374eed3c44178f50e9c32b68c"
+      "https://api.betterdoctor.com/2016-03-01/doctors?location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&skip=0&limit=30&user_key=af3d0bd374eed3c44178f50e9c32b68c"
     );
     const doctors = await response.json();
     const response1 = await fetch(
@@ -39,6 +67,7 @@ class App extends Component {
   }
   handleDoctorSearch = () => {
     const nameSearch = this.state.searchParm1;
+    console.log("handleDoctorSearch", this.state.searchParm1);
     /*filter list of doctors by searchParm1*/
     const filterByName = nameSearch => {
       return this.state.doctors.filter(
@@ -46,6 +75,7 @@ class App extends Component {
       );
     };
     const result = filterByName(nameSearch);
+    console.log("result display doctors", result);
     // setState on displayedDoctors
     this.setState({
       displayedDoctors: result
@@ -76,10 +106,10 @@ class App extends Component {
     this.setState({
       searchParm2: valueSpeciality
     });
-    /*filter list of speciality by searchParm2*/
     const searchResult = specialitySearch => {
-      return this.state.specializations.filter(obj =>
-        obj.name.includes(valueSpeciality)
+      /*filter list of speciality by searchParm2*/
+      return this.state.specializations.filter(SpecialityObj =>
+        SpecialityObj.name.includes(valueSpeciality)
       );
     };
     const result = searchResult(valueSpeciality);
@@ -87,37 +117,12 @@ class App extends Component {
       displaySpecializations: result
     });
   };
-  render() {
-    return (
-      <div>
-        <Title />
-        <NavBar loadComponent={(this.loadComponent)} />
-        {this.state.componentToDisplay === "listDoctors" && (
-          <DoctorsList list={this.state.doctors} />
-        )}
-        {this.state.componentToDisplay === "searchDoctors" && (
-          <div>
-            <SearchDoctor
-              inputValue={this.state.searchParm1}
-              inputChange={this.handleInputChange}
-              clickSearch={this.handleDoctorSearch}
-            />
-            <DoctorsList list={this.state.displayedDoctors} />
-          </div>
-        )}
-        {this.state.componentToDisplay === "searchSpecific" && (
-          <div>
-            <SearchSpeciality
-              inputValue={this.state.searchParm2}
-              inputChange={this.handleSpecialityChange}
-              clickSearch={this.handleSpecialitySearch}
-            />
-            <ListSpecializations listSpec={this.state.displaySpecializations} />
-          </div>
-        )}
-      </div>
-    );
-  }
+  handleViewInfo = () => {
+    console.log("in handleViewInfo", this.state.displayedDoctors);
+    this.setState({
+      docInfo: this.state.displayedDoctors.profile.bio
+    });
+  };
 }
 
 export default App;

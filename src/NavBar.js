@@ -3,9 +3,6 @@ const NavBar = (props) => (
     <div>
       <ul id="nav">
         <li>
-          <a onClick={() => props.loadComponent("listDoctors")}>List Doctors</a>
-        </li>
-        <li>
           <a onClick={() => props.loadComponent("searchDoctors")}>
             Retrieve a specific doctor description
           </a>
