@@ -14,9 +14,9 @@ class App extends Component {
       doctors: [],
       docInfo: null,
       formFields: {
-        searchParm1: "" /*input field value for doctor search */,
-        searchParm2: "" /*input field value for speciality search */,
-        searchParm3: ""
+        docSearchField: "" /*input field value for doctor search */,
+        specialitySearchField: "" /*input field value for speciality search */,
+        docSearchBySpecialityField: ""
       },
       displayedDoctors: [] /*For selected doctor */,
       componentToDisplay: "searchDoctors",
@@ -32,8 +32,8 @@ class App extends Component {
         {this.state.componentToDisplay === "searchDoctors" && (
           <div>
             <SearchDoctor
-              inputValue={this.state.searchParm1}
-              inputChange={event => this.handleChange(event, "searchParm1")}
+              inputValue={this.state.docSearchField}
+              inputChange={event => this.handleChange(event, "docSearchField")}
               clickSearch={this.handleDoctorSearch}
             />
             <DoctorsList list={this.state.displayedDoctors} />
@@ -42,17 +42,22 @@ class App extends Component {
         {this.state.componentToDisplay === "searchSpecific" && (
           <div>
             <SearchSpeciality
-              inputValue={this.state.formFields.searchParm2}
-              inputChange={event => this.handleChange(event, "searchParm2")}
+              inputValue={this.state.formFields.specialitySearchField}
+              inputChange={event =>
+                this.handleChange(event, "specialitySearchField")
+              }
               clickSearch={this.handleSpecialitySearch}
             />
             <ListSpecializations
               listSpec={this.state.displaySpecializations}
               listDoc={this.state.doctors}
-              inputValue={this.state.formFields.searchParm3}
-              inputChange={event => this.handleChange(event, "searchParm3")}
+              inputValue={this.state.formFields.docSearchBySpecialityField}
+              inputChange={event =>
+                this.handleChange(event, "docSearchBySpecialityField")
+              }
               clickSearch={this.handleSpecificDocSearch}
             />
+            <DoctorsList list={this.state.displayedDoctors} />
           </div>
         )}
       </div>
@@ -76,7 +81,6 @@ class App extends Component {
     });
   }
   handleChange = (event, parameter) => {
-    /*function onchange of value for doctor search */
     const valueOfInput = event.target.value;
     const formFields = this.state.formFields;
     formFields[parameter] = valueOfInput;
@@ -86,9 +90,9 @@ class App extends Component {
   };
 
   handleDoctorSearch = () => {
-    const nameSearch = this.state.formFields.searchParm1.toLowerCase();
+    const nameSearch = this.state.formFields.docSearchField.toLowerCase();
 
-    /*filter list of doctors by searchParm1*/
+    /*filter list of doctors by docSearchField*/
     const filterByName = nameSearch => {
       return this.state.doctors.filter(
         obj =>
@@ -115,30 +119,33 @@ class App extends Component {
     });
   };
   handleSpecialitySearch = () => {
-    const valueSpeciality = this.state.formFields.searchParm2.toLowerCase();
+    const valueSpeciality = this.state.formFields.specialitySearchField.toLowerCase();
     const searchResult = specialitySearch => {
-      /*filter list of speciality by searchParm2*/
+      /*filter list of speciality by specialitySearchField*/
       return this.state.specializations.filter(SpecialityObj =>
         SpecialityObj.name.toLowerCase().includes(valueSpeciality)
       );
     };
     const result = searchResult(valueSpeciality);
     this.setState({
-      displaySpecializations: result
+      displaySpecializations: result,
+      displayedDoctors: []
     });
   };
   handleSpecificDocSearch = () => {
-    const desiredSpeciality = this.state.formFields.searchParm3.toLowerCase();
-
+    const desiredSpeciality = this.state.formFields.docSearchBySpecialityField.toLowerCase();
+    console.log('in handleSpecificDocSearch',this.state.doctors)
     const searchDesiredDoc = desiredSpeciality => {
       return this.state.doctors.filter(
         docArr => docArr.specialties[0].name.toLowerCase() === desiredSpeciality
       );
     };
     const desiredDoc = searchDesiredDoc(desiredSpeciality);
-
     this.setState({
-      displayedDoctors: desiredDoc
+      displayedDoctors: desiredDoc,
+      componentToDisplay:'searchSpecific',
+      displaySpecializations:[]
+
     });
   };
 }
