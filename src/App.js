@@ -13,9 +13,11 @@ class App extends Component {
     this.state = {
       doctors: [],
       docInfo: null,
-      searchParm1: "" /*input field value for doctor search */,
-      searchParm2: "" /*input field value for speciality search */,
-      searchParm3: "",
+      formFields: {
+        searchParm1: "" /*input field value for doctor search */,
+        searchParm2: "" /*input field value for speciality search */,
+        searchParm3: ""
+      },
       displayedDoctors: [] /*For selected doctor */,
       componentToDisplay: "searchDoctors",
       specializations: [],
@@ -31,7 +33,7 @@ class App extends Component {
           <div>
             <SearchDoctor
               inputValue={this.state.searchParm1}
-              inputChange={this.handleInputChange}
+              inputChange={event => this.handleChange(event, "searchParm1")}
               clickSearch={this.handleDoctorSearch}
             />
             <DoctorsList list={this.state.displayedDoctors} />
@@ -40,15 +42,15 @@ class App extends Component {
         {this.state.componentToDisplay === "searchSpecific" && (
           <div>
             <SearchSpeciality
-              inputValue={this.state.searchParm2}
-              inputChange={this.handleSpecialityChange}
+              inputValue={this.state.formFields.searchParm2}
+              inputChange={event => this.handleChange(event, "searchParm2")}
               clickSearch={this.handleSpecialitySearch}
             />
             <ListSpecializations
               listSpec={this.state.displaySpecializations}
               listDoc={this.state.doctors}
-              inputValue={this.state.searchParm3}
-              inputChange={this.handleSpecialityDocChange}
+              inputValue={this.state.formFields.searchParm3}
+              inputChange={event => this.handleChange(event, "searchParm3")}
               clickSearch={this.handleSpecificDocSearch}
             />
           </div>
@@ -73,15 +75,18 @@ class App extends Component {
       displaySpecializations: []
     });
   }
-  handleInputChange = event => {
+  handleChange = (event, parameter) => {
     /*function onchange of value for doctor search */
     const valueOfInput = event.target.value;
+    const formFields = this.state.formFields;
+    formFields[parameter] = valueOfInput;
     this.setState({
-      searchParm1: valueOfInput
+      formFields: formFields
     });
   };
+
   handleDoctorSearch = () => {
-    const nameSearch = this.state.searchParm1.toLowerCase();
+    const nameSearch = this.state.formFields.searchParm1.toLowerCase();
 
     /*filter list of doctors by searchParm1*/
     const filterByName = nameSearch => {
@@ -109,15 +114,8 @@ class App extends Component {
       componentToDisplay: componentName
     });
   };
-  handleSpecialityChange = event => {
-    /*function onchange of value for speciality search */
-    const valueOfInput = event.target.value;
-    this.setState({
-      searchParm2: valueOfInput
-    });
-  };
   handleSpecialitySearch = () => {
-    const valueSpeciality = this.state.searchParm2.toLowerCase();
+    const valueSpeciality = this.state.formFields.searchParm2.toLowerCase();
     const searchResult = specialitySearch => {
       /*filter list of speciality by searchParm2*/
       return this.state.specializations.filter(SpecialityObj =>
@@ -129,14 +127,8 @@ class App extends Component {
       displaySpecializations: result
     });
   };
-  handleSpecialityDocChange = event => {
-    const valueofSpeciality = event.target.value;
-    this.setState({
-      searchParm3: valueofSpeciality
-    });
-  };
   handleSpecificDocSearch = () => {
-    const desiredSpeciality = this.state.searchParm3.toLowerCase();
+    const desiredSpeciality = this.state.formFields.searchParm3.toLowerCase();
 
     const searchDesiredDoc = desiredSpeciality => {
       return this.state.doctors.filter(
