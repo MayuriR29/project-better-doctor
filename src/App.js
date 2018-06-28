@@ -57,11 +57,11 @@ class App extends Component {
 
   async componentDidMount() {
     const response = await fetch(
-      "https://api.betterdoctor.com/2016-03-01/doctors?location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&skip=0&limit=30&user_key=af3d0bd374eed3c44178f50e9c32b68c"
+      "http://api.jumpstart.site:3000/api.betterdoctor.com/2016-03-01/doctors?location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&skip=0&limit=100"
     );
     const doctors = await response.json();
     const response1 = await fetch(
-      "https://api.betterdoctor.com/2016-03-01/specialties?user_key=af3d0bd374eed3c44178f50e9c32b68c"
+      "http://api.jumpstart.site:3000/api.betterdoctor.com/2016-03-01/specialties"
     );
     const specializations = await response1.json();
     this.setState({
@@ -129,7 +129,9 @@ class App extends Component {
     console.log("in handleSpecificDocSearch", this.state.doctors);
     const searchDesiredDoc = desiredSpeciality => {
       return this.state.doctors.filter(
-        docArr => docArr.specialties[0].uid === desiredSpeciality
+        eachDocArr => eachDocArr.specialties.filter((eachSpec)=>{
+          return eachSpec.uid===desiredSpeciality
+        })
       );
     };
     const desiredDoc = searchDesiredDoc(desiredSpeciality);

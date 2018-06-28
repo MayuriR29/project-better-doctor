@@ -1,9 +1,11 @@
 import React from 'react';
 const Title=()=>{
   return(
-    <h1>Welcome To Better Doctor</h1>
-  )
-     
-      
+    <div>
+    <img src="https://developer.betterdoctor.com/images/betterdoctor-logo-hi-res.png"
+     alt="" />
+    </div>
+    
+  )     
 }
 export default Title;
