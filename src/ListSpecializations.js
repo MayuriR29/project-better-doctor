@@ -1,5 +1,18 @@
+import { Menu, Dropdown, Icon } from "antd";
 import React from "react";
+
 const ListSpecializations = props => {
+  const menu = (
+    <Menu>
+      {props.listSpec.map((specialties, index) => {
+        return (
+          <Menu.Item key={index}>
+            <a>{specialties.name}</a>
+          </Menu.Item>
+        );
+      })}
+    </Menu>
+  );
   return (
     <div>
       <input
@@ -8,12 +21,12 @@ const ListSpecializations = props => {
         value={props.inputValue}
         onChange={props.inputChange}
       />
-      <button onClick={props.clickSearch}>Find Doctor</button>
-      <ul>
-        {props.listSpec.map((specialties, index) => {
-          return <li key={index}> {specialties.name}</li>;
-        })}
-      </ul>
+      <button onClick={props.clickSpecificDocSearch}>Find Doctor</button>
+      <Dropdown overlay={menu} trigger={["click"]}>
+        <a className="ant-dropdown-link" href="">
+          Click me <Icon type="down" />
+        </a>
+      </Dropdown>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+@import '~antd/dist/antd.css';
 body {
   margin: 0;
   padding: 0;
@@ -32,12 +33,13 @@ body {
   color: #c00;
   background-color: #fff;
 }
-.DoctorList,p{
-  background-color:  #fff;
+
+.DoctorList, p {
+  background-color: #fff;
   width: 400px;
 }
 
-appClass.input{
-  float:left;
-  position:fixed;
+appClass.input {
+  float: left;
+  position: fixed;
 }

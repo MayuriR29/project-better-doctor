@@ -6,7 +6,7 @@ import SearchDoctor from "./SearchDoctor";
 import ListSpecializations from "./ListSpecializations";
 import SearchSpeciality from "./SearchSpeciality";
 import NavBar from "./NavBar";
-import SpecialityDocDetails from "./SpecialityDocDetails"
+import SpecialityDocDetails from "./SpecialityDocDetails";
 
 class App extends Component {
   constructor() {
@@ -22,8 +22,8 @@ class App extends Component {
       displayedDoctors: [] /*For selected doctor */,
       componentToDisplay: "searchDoctors",
       specializations: [],
-      displaySpecializations: [], /*For selected specializations */
-      displaySpecialDoc:[]
+      displaySpecializations: [] /*For selected specializations */,
+      displayDesiredDoc: []
     };
   }
   render() {
@@ -45,21 +45,23 @@ class App extends Component {
           <div>
             <SearchSpeciality
               inputValue={this.state.formFields.specialitySearchField}
+              list={this.state.displaySpecializations}
               inputChange={event =>
                 this.handleChange(event, "specialitySearchField")
               }
-              clickSearch={this.handleSpecialitySearch}
+              clickSpecialitySearch={this.handleSpecialitySearch}
+              findDoc={this.handleSpecificDocSearch}
             />
             <ListSpecializations
               listSpec={this.state.displaySpecializations}
-              listDoc={this.state.doctors}
+              // listDoc={this.state.doctors}
               inputValue={this.state.formFields.docSearchBySpecialityField}
               inputChange={event =>
                 this.handleChange(event, "docSearchBySpecialityField")
               }
-              clickSearch={this.handleSpecificDocSearch}
+              clickSpecificDocSearch={this.handleSpecificDocSearch}
             />
-            <SpecialityDocDetails list={this.state.displaySpecialDoc} />
+            <SpecialityDocDetails list={this.state.displayDesiredDoc} />
           </div>
         )}
       </div>
@@ -93,7 +95,6 @@ class App extends Component {
 
   handleDoctorSearch = () => {
     const nameSearch = this.state.formFields.docSearchField.toLowerCase();
-
     /*filter list of doctors by docSearchField*/
     const filterByName = nameSearch => {
       return this.state.doctors.filter(
@@ -120,8 +121,9 @@ class App extends Component {
       componentToDisplay: componentName
     });
   };
-  handleSpecialitySearch = () => {
-    const valueSpeciality = this.state.formFields.specialitySearchField.toLowerCase();
+  handleSpecialitySearch = (value) => {
+    const valueSpeciality = value.toLowerCase();
+
     const searchResult = specialitySearch => {
       /*filter list of speciality by specialitySearchField*/
       return this.state.specializations.filter(SpecialityObj =>
@@ -129,25 +131,27 @@ class App extends Component {
       );
     };
     const result = searchResult(valueSpeciality);
+ 
     this.setState({
       displaySpecializations: result,
-      displayedDoctors: []
+      displayedDoctors: [],
+      displayDesiredDoc: [],
+      formFields: { ...this.state.formFields, docSearchBySpecialityField: "" }
     });
   };
-  handleSpecificDocSearch = () => {
-    const desiredSpeciality = this.state.formFields.docSearchBySpecialityField.toLowerCase();
-    console.log('in handleSpecificDocSearch',this.state.doctors)
+  handleSpecificDocSearch = (value) => {
+    console.log('in find doc',value)
+    const desiredSpeciality = value.toLowerCase();
+    console.log("in handleSpecificDocSearch", this.state.doctors);
     const searchDesiredDoc = desiredSpeciality => {
       return this.state.doctors.filter(
-        docArr => docArr.specialties[0].name.toLowerCase() === desiredSpeciality
+        docArr => docArr.specialties[0].uid === desiredSpeciality
       );
     };
     const desiredDoc = searchDesiredDoc(desiredSpeciality);
     this.setState({
-      displaySpecialDoc: desiredDoc,
-      componentToDisplay:'searchSpecific',
-      displaySpecializations:[]
-
+      displayDesiredDoc: desiredDoc,
+      displaySpecializations: []
     });
   };
 }
