@@ -3,7 +3,6 @@ import "./App.css";
 import DoctorsList from "./DoctorsList";
 import Title from "./Title";
 import SearchDoctor from "./SearchDoctor";
-import ListSpecializations from "./ListSpecializations";
 import SearchSpeciality from "./SearchSpeciality";
 import NavBar from "./NavBar";
 import SpecialityDocDetails from "./SpecialityDocDetails";
@@ -46,20 +45,8 @@ class App extends Component {
             <SearchSpeciality
               inputValue={this.state.formFields.specialitySearchField}
               list={this.state.displaySpecializations}
-              inputChange={event =>
-                this.handleChange(event, "specialitySearchField")
-              }
               clickSpecialitySearch={this.handleSpecialitySearch}
               findDoc={this.handleSpecificDocSearch}
-            />
-            <ListSpecializations
-              listSpec={this.state.displaySpecializations}
-              // listDoc={this.state.doctors}
-              inputValue={this.state.formFields.docSearchBySpecialityField}
-              inputChange={event =>
-                this.handleChange(event, "docSearchBySpecialityField")
-              }
-              clickSpecificDocSearch={this.handleSpecificDocSearch}
             />
             <SpecialityDocDetails list={this.state.displayDesiredDoc} />
           </div>
@@ -98,15 +85,14 @@ class App extends Component {
     /*filter list of doctors by docSearchField*/
     const filterByName = nameSearch => {
       return this.state.doctors.filter(
-        obj =>
-          obj.profile.first_name.toLowerCase() === nameSearch ||
-          obj.profile.last_name.toLowerCase() === nameSearch
+        eachDoc =>
+        eachDoc.profile.first_name.toLowerCase() === nameSearch ||
+        eachDoc.profile.last_name.toLowerCase() === nameSearch
       );
     };
     const result = filterByName(nameSearch);
 
     this.setState({
-      // setState on displayedDoctors
       displayedDoctors: result
     });
   };
@@ -121,9 +107,8 @@ class App extends Component {
       componentToDisplay: componentName
     });
   };
-  handleSpecialitySearch = (value) => {
-    const valueSpeciality = value.toLowerCase();
-
+  handleSpecialitySearch = (selectedSpeciality) => {
+    const valueSpeciality = selectedSpeciality.toLowerCase();
     const searchResult = specialitySearch => {
       /*filter list of speciality by specialitySearchField*/
       return this.state.specializations.filter(SpecialityObj =>
@@ -131,7 +116,6 @@ class App extends Component {
       );
     };
     const result = searchResult(valueSpeciality);
- 
     this.setState({
       displaySpecializations: result,
       displayedDoctors: [],
