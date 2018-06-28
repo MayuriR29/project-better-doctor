@@ -6,6 +6,7 @@ import SearchDoctor from "./SearchDoctor";
 import ListSpecializations from "./ListSpecializations";
 import SearchSpeciality from "./SearchSpeciality";
 import NavBar from "./NavBar";
+import SpecialityDocDetails from "./SpecialityDocDetails"
 
 class App extends Component {
   constructor() {
@@ -21,7 +22,8 @@ class App extends Component {
       displayedDoctors: [] /*For selected doctor */,
       componentToDisplay: "searchDoctors",
       specializations: [],
-      displaySpecializations: [] /*For selected specializations */
+      displaySpecializations: [], /*For selected specializations */
+      displaySpecialDoc:[]
     };
   }
   render() {
@@ -57,7 +59,7 @@ class App extends Component {
               }
               clickSearch={this.handleSpecificDocSearch}
             />
-            <DoctorsList list={this.state.displayedDoctors} />
+            <SpecialityDocDetails list={this.state.displaySpecialDoc} />
           </div>
         )}
       </div>
@@ -142,7 +144,7 @@ class App extends Component {
     };
     const desiredDoc = searchDesiredDoc(desiredSpeciality);
     this.setState({
-      displayedDoctors: desiredDoc,
+      displaySpecialDoc: desiredDoc,
       componentToDisplay:'searchSpecific',
       displaySpecializations:[]
 
