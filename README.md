@@ -1,11 +1,29 @@
+#Better Doctor API
+Getting started
+1. npx create-react-app project-name
+2. cd into the project folder
+3. npm start
+4. npm install antd --save 
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+##Prerequisites
+1. Node
+2. React
+3. Antd (For styling)
+##Deployment
+1. Deployment done with Netlify
+##Link to working App on Netlify
+
+#Tasks
+1. Better Doctor API helps users to search doctor by name and view their information.
+2. It also helps to refine the search by their speciality by providing a list of specialities 
+and selecting based on the required speciality.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
---links
-doc:"http://api.jumpstart.site:3000/api.betterdoctor.com/2016-03-01/doctors?location=37.773%2C-122.413%2C100&user_location=37.773%2C-122.413&skip=0&limit=10"
-speiality:
-"https://api.betterdoctor.com/2016-03-01/specialties?user_key=af3d0bd374eed3c44178f50e9c32b68c"
+
 ## Table of Contents
 
 - [Updating to New Releases](#updating-to-new-releases)

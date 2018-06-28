@@ -22,11 +22,10 @@ class App extends Component {
       componentToDisplay: "searchDoctors",
       specializations: [],
       displaySpecializations: [] /*For selected specializations */,
-      displayDesiredDoc: [],
+      displayDesiredDoc: []
     };
   }
   render() {
-
     return (
       <div className="appClass">
         <Title />
@@ -87,8 +86,8 @@ class App extends Component {
     const filterByName = nameSearch => {
       return this.state.doctors.filter(
         eachDoc =>
-        eachDoc.profile.first_name.toLowerCase() === nameSearch ||
-        eachDoc.profile.last_name.toLowerCase() === nameSearch
+          eachDoc.profile.first_name.toLowerCase() === nameSearch ||
+          eachDoc.profile.last_name.toLowerCase() === nameSearch
       );
     };
     const result = filterByName(nameSearch);
@@ -108,7 +107,7 @@ class App extends Component {
       componentToDisplay: componentName
     });
   };
-  handleSpecialitySearch = (selectedSpeciality) => {
+  handleSpecialitySearch = selectedSpeciality => {
     const valueSpeciality = selectedSpeciality.toLowerCase();
     const searchResult = specialitySearch => {
       /*filter list of speciality by specialitySearchField*/
@@ -121,23 +120,21 @@ class App extends Component {
       displaySpecializations: result,
       displayedDoctors: [],
       displayDesiredDoc: [],
-      docInfo:null,
+      docInfo: null,
       formFields: { ...this.state.formFields, docSearchBySpecialityField: "" }
     });
   };
-  handleSpecificDocSearch = (value) => {
-    console.log('in find doc',value)
+  handleSpecificDocSearch = value => {
     const desiredSpeciality = value.toLowerCase();
-    console.log("in handleSpecificDocSearch", this.state.doctors);
     const searchDesiredDoc = desiredSpeciality => {
       return this.state.doctors.filter(
-        eachDocArr => eachDocArr.specialties.filter((eachSpec,index,arr)=>{          
-          return eachSpec.uid===desiredSpeciality          
-        }).length > 0
+        eachDocArr =>
+          eachDocArr.specialties.filter((eachSpec, index, arr) => {
+            return eachSpec.uid === desiredSpeciality;
+          }).length > 0
       );
     };
     const desiredDoc = searchDesiredDoc(desiredSpeciality);
-    console.log('in handleSpecificDocSearch',desiredDoc)
     this.setState({
       displayDesiredDoc: desiredDoc,
       displaySpecializations: []

@@ -25,21 +25,30 @@ body {
   padding: 8px 15px;
   text-decoration: none;
   font-weight: bold;
+  font-size-adjust: inherit;
   color: #069;
   border-right: 1px solid #ccc;
 }
 
 #nav li a:hover {
-  color: #c00;
+  color:rgb(177, 108, 142);
   background-color: #fff;
 }
 
 .DoctorList, p {
   background-color: #fff;
-  width: 400px;
+  width: 450px;
 }
 
 appClass.input {
   float: left;
   position: fixed;
+}
+.Title,img{
+  width:45%;
+  height:30%;
+}
+.SearchSpeciality,h4{
+  font-weight: bold;
+  color: #069;
 }

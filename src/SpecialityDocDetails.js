@@ -1,7 +1,7 @@
 import React from "react";
 const SpecialityDocDetails = props => {
   return (
-    <div className='DoctorList'>
+    <div className="DoctorList">
       {props.list.map((eachDoc, index) => {
         return (
           <div key={index}>

@@ -8,8 +8,8 @@ const SearchSpeciality = props => {
     };
   });
   return (
-    <div>
-      <h3>Enter required Speciality</h3>
+    <div className="SearchSpeciality">
+      <h4>Enter required Speciality</h4>
       <AutoComplete
         dataSource={dataSource}
         style={{ width: 200 }}
