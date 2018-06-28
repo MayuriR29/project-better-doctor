@@ -13,7 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ##Deployment
 1. Deployment done with Netlify
 ##Link to working App on Netlify
-
+(https://project-better-doctor.netlify.com/)
 #Tasks
 1. Better Doctor API helps users to search doctor by name and view their information.
 2. It also helps to refine the search by their speciality by providing a list of specialities 
