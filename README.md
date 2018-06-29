@@ -9,7 +9,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ##Prerequisites
 1. Node
 2. React
-3. Antd (For styling)
+3. Ant UI library (For styling)
 ##Deployment
 1. Deployment done with Netlify
 ##Link to working App on Netlify

@@ -10,6 +10,7 @@ const SpecialityDocDetails = props => {
             </h2>
             {eachDoc.profile.bio}
             <img alt="" src={eachDoc.profile.image_url} />
+            
           </div>
         );
       })}
